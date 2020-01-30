@@ -5,19 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             @auth
-                <script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
-                <script>
-                    $(function(){
-                        $('#close').bind('click', function(){
-                            window.close();
-                        });
-                    });
-                </script>
-
-                <div>
-                    <button id="close" class="btn btn-success" style="margin-bottom: 10px">Закрыть</button>
-                    <a style="margin-bottom: 10px" href="/dashboard/students" class="btn btn-success">В админку</a>
-                </div>
+                <a style="margin-bottom: 10px" href="/dashboard/students" class="btn btn-success">В админку</a>
             @endauth
             <div class="card">
                 <div class="card-header">{{ __('Tests') }}</div>

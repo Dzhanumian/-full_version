@@ -14,7 +14,7 @@
               <div style="margin-left: 30px;">
                 <a href="/dashboard/lesson" class="btn btn-primary">По дням</a>
                 <a href="/dashboard/lesson_week" class="btn btn-primary">По неделям</a>
-                <a href="/dashboard/lesson_month" class="btn btn-primary">по месяцам</a> 
+                <a href="/dashboard/lesson_month" class="btn btn-primary">По месяцам</a> 
                 <!------------------------------------------------------------------->
                 <div class="navbar-custom-menu" style="float: right;">
                 <ul class="nav navbar-nav">
@@ -24,12 +24,12 @@
                       <i class="fa fa-info-circle"></i>
                     </a>
                     <ul class="dropdown-menu">
-                      <li class="header">Уроков</li>
+                      <li class="header">Статистика уроков</li>
                       <li>
                         <ul class="menu">
                           <li style="padding: 5px 20px">
                               <p>Всего: {{$arr_stat[0]}}</p>
-                              <p>Запланированированных: {{$arr_stat[1]}}</p>
+                              <p>Запланированных: {{$arr_stat[1]}}</p>
                               <p>Проведенных: {{$arr_stat[2]}}</p>
                               <p>Отмененных: {{$arr_stat[3]}}</p>
                               <p>Поздно отмененных: {{$arr_stat[4]}}</p> 
@@ -58,11 +58,24 @@
                    <select class="form-control select2" style="height: 34px; width: 200px;" name="group">
                       
                     @if($filter["group_id"] != null && $filter["group_id"] != 0)
+                      @if($filter['group_id'] == 9999) 
+                      <option value="{{ $filter['group_id'] }}">Отработки</option>
+                      @endif
+                      @if($filter['group_id'] == 10000) 
+                      <option value="{{ $filter['group_id'] }}">Тестирования</option>
+                      @endif
+                      @if($filter['group_id'] == 10001) 
+                      <option value="{{ $filter['group_id'] }}">Пробные уроки</option>
+                      @endif
+                      @if($filter['group_id'] != 9999 and $filter['group_id'] != 10000) 
                       <option value="{{ $filter['group_id'] }}">Для {{ $filter["group_name"] }}</option>
+                      @endif
                     @endif
                     
                       <option>Все группы</option>
-                  
+                      <option value="9999">Отработки</option>
+                      <option value="10000">Тестирования</option>
+                      <option value="10001">Пробное занятие</option>
                     @foreach ($groups as $group)
                       <option value="{{ $group->id }}">{{ $group->group_name }}</option>
                     @endforeach
@@ -103,8 +116,10 @@
             <div class="box-body">
               @if(Auth::user()->role != 'teacher')
               <div class="form-group" style="font-size: 20px;">
-                <a href="{{route('lesson.create')}}" class="btn btn-success">Добавить 1 занятие</a>
-                <a href="{{route('automatic.create')}}" class="btn btn-success">Добавить несколько занятий</a>
+                <a href="{{route('lesson.create')}}" class="btn btn-success">Добавить урок</a>
+                <a href="{{route('automatic.create')}}" class="btn btn-success">Добавить расписание</a>
+                <a href="{{route('lesson.worked.create')}}" class="btn btn-success">Добавить отработку</a>
+                <a href="{{route('lesson.test.create')}}" class="btn btn-success">Добавить тестирование</a>
               </div>
               @endif
               <!----------------Понедельник-------------------->

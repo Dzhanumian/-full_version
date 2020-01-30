@@ -47,7 +47,13 @@
             <label for="group_id" class="col-md-2 col-form-label text-md-right">{{ __('Занятие для группы ') }}</label>
             <div class="col-md-6">
                 <select class="form-control select2 @error('group_id') is-invalid @enderror"  name="group_id" autofocus autocomplete="group_id">
+                @if(isset($group))
                   <option value="{{ $group->id }}">{{ $group->group_name }}</option>
+                
+                @else
+                  <option value="10001">Пробное занятие</option>
+                @endif
+                  
                 @foreach($groups as $group)
                   <option value="{{ $group->id }}">{{ $group->group_name }}</option>
                 @endforeach
@@ -104,7 +110,6 @@
                   <option>Урок по расписанию</option>
                   <option>Тестирование</option>
                   <option>Пробное занятие</option>
-                  <option>Отработка</option>
                   <option>Speaking club</option>
                 </select>
                 @error('type')

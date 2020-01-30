@@ -7,7 +7,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Logos| тесты</title>
+    <title>Logos|School Managament System</title>
+    <!--<title>{{ config('app.name', 'Logos') }}</title>-->
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -24,7 +25,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="">
-                    <i><strong>Log</strong>os</i>
+                    <i><strong>Logos School Management System</strong></i>
                 </a>
             </div>
         </nav>

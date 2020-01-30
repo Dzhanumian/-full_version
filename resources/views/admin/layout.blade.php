@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Logos| DashBoadr</title>
+  <title>Logos | School Management System</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="/css/admin.css">
-
+  <link rel="shortcut icon" href="/images/sms-logos.ico"/>
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -33,9 +33,9 @@
     <!-- Logo -->
     <a href="" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>L</b></span>
+      <span class="logo-mini"><img src="http://logos.donetsk.ua/Logotips/logos_logotip_white_45x44.png" class="img-circle" alt="User Image" style="border-radius: 10%;"></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Log</b>os</span>
+      <span class="logo-lg"><img src="http://logos.donetsk.ua/Logotips/logos_logotip_white_45x44.png" class="img-circle" alt="User Image" style="border-radius: 10%;"> Logos English Studio</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -153,13 +153,13 @@
               <li class="user-body">
                 <div class="row">
                   <div class="col-xs-4 text-center">
-                    <a href="#">кнопка</a>
+                    <a href="#">кнопка 1</a>
                   </div>
                   <div class="col-xs-4 text-center">
-                    <a href="#">кнопка</a>
+                    <a href="#">кнопка 2</a>
                   </div>
                   <div class="col-xs-4 text-center">
-                    <a href="#">кнопка</a>
+                    <a href="#">кнопка 3</a>
                   </div>
                 </div>
                 <!-- /.row -->
@@ -238,7 +238,7 @@
       <div class="tab-pane" id="control-sidebar-home-tab">
         <h3 class="control-sidebar-heading"></h3>
         <ul class="control-sidebar-menu">
-          <p></p><!---------------------11111111111111111111111111111111111-------------------------> 
+          <p>значёк дома</p><!---------------------11111111111111111111111111111111111-------------------------> 
         </ul>
         <!-- /.control-sidebar-menu -->
 
@@ -249,7 +249,7 @@
       <!-- /.tab-pane -->
       <!-- Settings tab content -->
       <div class="tab-pane" id="control-sidebar-settings-tab">
-        <p></p>
+        <p>значёк шестёренки</p>
       </div>
       <!-- /.tab-pane -->
     </div>
@@ -262,6 +262,14 @@
 <!-- ./wrapper -->
 
 <script src="/js/admin.js"></script>
+<script src="/plugins/ckeditor/ckeditor.js"></script>
+<script src="/plugins/ckfinder/ckfinder.js"></script>
+<script>
+    $(document).ready(function(){
+        var editor = CKEDITOR.replaceAll();
+        CKFinder.setupCKEditor( editor );
+    })
 
+</script>
 </body>
 </html>

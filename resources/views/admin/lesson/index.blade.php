@@ -28,6 +28,7 @@
                 @if(Auth::user()->role != 'teacher')
                 <a href="{{route('lesson.create')}}" class="btn btn-success">Добавить 1 занятие</a>
                 <a href="{{route('automatic.create')}}" class="btn btn-success">Добавить несколько занятий</a>
+                <a href="{{route('lesson.worked.create')}}" class="btn btn-success">Добавить отработку</a>
                 @endif
               </div>
               <table id="example1" class="table table-bordered table-striped" style="font-size: 20px;">

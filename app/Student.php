@@ -11,6 +11,11 @@ class Student extends Model
         'id','name', 'surname', 'patronymic', 'date_of_birth', 'phone_number', 'email_s', 'responsible', 'relations', 'surname_r', 'name_r' ,  'patronymic_r', 'date_of_birth_r', 'phone_number_r', 'studied_or_studying_r', 'field_of_activity',  'education', 'meaning', 'about_us', 'status', 'created_at', 'updated_at', 'studied', 'email_r', 'payouts', 'comment'
     ];
 
+   	public function getAllActivStudent()
+    {
+        return $ActivStudents = Student::where('status', 'Активный')->get();
+    }
+
 	public function add($var1, $var2, $var3, $var4, $var5, $var6, $var7, $var8, $var9, $var10, $var11, $var12, $var13, $var14, $var15, $var16, $var17, $var18, $var19, $var20){
 
     	$dateTime = Carbon::now('Europe/Kiev');

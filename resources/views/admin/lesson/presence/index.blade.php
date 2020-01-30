@@ -9,14 +9,14 @@
     <section class="content">
       <button id="close" class="btn btn-success" style="margin-top: -30px;">Закрыть</button>
       <div class="box" style="font-size: 18px">
-        <p><strong style="font-size: 20px">Об уроке №{{ $lesson->id}}</strong>
+        <p><strong style="font-size: 20px">Урок №{{ $lesson->id}}</strong>
           @if (\Session::has('failure'))
-          <div class="alert alert-danger">
+            <div class="alert alert-danger">
               <ul>
                   <li>{!! \Session::get('failure')[0] !!}</li>
               </ul>
-          </div>
-        @endif
+            </div>
+          @endif
         <div class="box-body">
           <form method="POST" action="{{route('status_up.update', $lesson->id)}}">
           @method('PATCH')  
@@ -41,7 +41,7 @@
 
             <div style="margin-left: 20px">
               <button type="submit" class="btn btn-primary">
-                {{ __('Изменить') }}
+                {{ __('Провести урок') }}
               </button>
             </div>
           </div>          
@@ -50,33 +50,98 @@
         <div style="width: 100%;"></div>
 
         <div style="float: left; padding-right: 50px;">
-          <h4>Общее</h4>
+          <h4>Информация об уроке</h4>
           <div><strong>Преподаватель:</strong> {{$teacher->surname.' '.$teacher->name}}</div>
-          <div><strong>Дата:</strong> {{$lesson->lesson_date}}</div>
+          <div><strong>Дата:</strong> {{ date_format(date_create($lesson->lesson_date), 'l d.m.Y') }}</div>
           <div><strong>Время:</strong> {{$lesson->lesson_time.' - '.$lesson->lesson_time_end}}</div>
           <div><strong>Филиал:</strong> {{$room->subsidiaries_name}}</div>
           <div><strong>Кабинет:</strong> {{$room->room_name}}</div>
+          @if(isset($group) != false)
           <div><strong>Группа:</strong> {{$group->group_name}}</div>
+          @endif
+
           <a href="{{route('lesson.edit', $lesson->id)}}">
             <button type="button" class="btn btn-primary">
-              Редактировать
+              Редактировать урок
             </button>
           </a>
+            <br><br>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+              Назначить пробное занятие
+            </button>
+              <!-- Modal -->
+              <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Список студентов:</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="col-md-3">
+                      
+                      <form method="POST" action="{{route('lesson.trial.student.store')}}">
+                      @csrf
+                        <select class="select2" multiple name="tria_users[]" style="width: 400px;">
+                          @foreach($TrialLesson as $trial)
+                          <option value="{{ $trial->id }}" selected>{{ $trial->surname.' '.$trial->name.' '.$trial->patronymic }}</option>
+                          @endforeach
+
+                          @foreach($all_student as $students)
+                              <option value="{{$students->id}}">{{ $students->surname.' '.$students->name }}</option>
+                          @endforeach
+                        </select>
+                        <br><br>
+
+                        <input type="hidden" name="lesson_idd" value="{{ $lesson->id }}">
+
+                        <button type="submit" class="btn btn-primary">
+                          Назначить
+                        </button>
+                      </form>
+
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
         </div>
 
         <div style="float: left; padding-right: 50px;">
-          <h4>Cтуденты группы</h4>
+          @if(isset($group) == true)
+            <h4>Учащиеся группы {{$group->name}}:</h4>
+          @endif
+
+          @if(isset($group) != true)
+            <h4>Учащиеся:</h4>
+          @endif
           <ol>
+            @if(isset($group) == true)
+
               @foreach($student as $stud)
                 @foreach($stud as $s)
-                <li>{{ $s->surname.' '.$s->name }}</li>
+                  <li>{{ $s->surname.' '.$s->name }}</li>
                 @endforeach
               @endforeach
+
+            @endif
+
+              @foreach($TrialLesson as $trial)
+                <li style="color: orange">{{ $trial->surname.' '.$trial->name }}</li>
+              @endforeach
+
           </ol>
         </div>
 
         <div style="float: left; padding-right: 50px;">
-          <h4>Присутствовали</h4>
+          <h4>Присутствовали:</h4>
           @for ($i = 0; $i < $limit_ar['limit']; $i++)
              
             @foreach($arr_presence[$i] as $key)
@@ -88,7 +153,7 @@
         </div>
 
         <div style="float: left; padding-right: 50px;">
-          <h4>Отсутствовали</h4>
+          <h4>Отсутствовали:</h4>
           @for ($i = 0; $i < $limit_ar['limit1']; $i++)
              
             @foreach($arr_presence1[$i] as $key)
@@ -107,8 +172,12 @@
 
 
                   <div class="up" style="margin-top: 40px">
-                    <label for="studs" class="col-form-label">Отсутствовали на уроке</label><br>
+                    <label for="studs" class="col-form-label">Отсутствовавшие на уроке учащиеся</label><br><small>Укажите учащихся, которые отсутствовали на уроке и нажмите кнопку "Отметить"<br>Если все учащиеся группы присутствовали на уроке, оставьте поле пустым и нажмите кнопку "Отметить"</small><br>
                     <select style="width: 475px" class="form-control select2"  name="studs[]" autofocus autocomplete="studs" multiple>
+                      @foreach($TrialLesson as $trial)
+                        <option value="{{ $trial->id }}">{{ $trial->surname.' '.$trial->name.' '.$trial->patronymic }}</option>
+                      @endforeach
+
                       @foreach($student as $stud)
                         @foreach($stud as $s)
                           <option value="{{ $s->id }}">{{ $s->surname.' '.$s->name }}</option>
@@ -119,7 +188,13 @@
 
 
               <input type="hidden" name="lesson_id" value="{{ $lesson->id}}">
-              <input type="hidden" name="group_id" value="{{ $group->id}}">
+              @if(isset($group) == true)
+                <input type="hidden" name="group_id" value="{{ $group->id}}">
+              @endif
+      
+              @if(isset($group) != true)
+                <input type="hidden" name="group_id" value="10001">
+              @endif
               <!----------------------------------->
               <select name="all[]" multiple hidden="true">
                   
@@ -128,11 +203,14 @@
                       <option selected>{{ $s->id }}</option>
                     @endforeach
                   @endforeach 
+                  @foreach($TrialLesson as $trial)
+                    <option selected>{{ $trial->id }}</option>
+                  @endforeach
 
               </select>
               <!----------------------------------->
               <button type="submit" class="btn btn-primary">
-                {{ __('Подтвердить') }}
+                {{ __('Отметить') }}
               </button>
           <!------------>       
         </form>

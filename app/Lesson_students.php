@@ -42,6 +42,36 @@ class Lesson_students extends Model
 	   	]);
 	}
 
+	public function planned($lesson_id ,$student_id){
+
+    	$dateTime = Carbon::now('Europe/Kiev');
+    	$lastUserId = \DB::table('lesson_students')->max('id');
+
+	    Lesson_students::create([
+	    	'id' => $lastUserId+1,
+	    	'lesson_id' => $lesson_id, 
+	    	'student_id' => $student_id,
+	    	'group_id' => 9999,
+	    	'status' => 'планируемо',
+	    	'created_at' => $dateTime
+	   	]);
+	}	
+
+	public function plannedVisitLesson($lesson_id ,$student_id){
+
+    	$dateTime = Carbon::now('Europe/Kiev');
+    	$lastUserId = \DB::table('lesson_students')->max('id');
+
+	    Lesson_students::create([
+	    	'id' => $lastUserId+1,
+	    	'lesson_id' => $lesson_id, 
+	    	'student_id' => $student_id,
+	    	'group_id' => 9999,
+	    	'status' => 'планируемо',
+	    	'created_at' => $dateTime
+	   	]);
+	}
+
 	public function lesson()
   	{
     	return $this->belongsTo('App\Lesson', 'lesson_id');

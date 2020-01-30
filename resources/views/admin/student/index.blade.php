@@ -14,10 +14,10 @@
             <!-- /.box-header -->
             <div class="box-body">
               <div class="form-group">
-                <a href="{{route('students.create')}}" class="btn btn-success">Добавить студента</a>
+                <a href="{{route('students.create')}}" class="btn btn-success">Добавить учащегося</a>
                 @if(Auth::user()->role !=  'teacher')
-                <a href="{{route('student.excel')}}" class="btn btn-primary">Excel</a>
-                <a href="{{route('debtor_search')}}" class="btn btn-danger">Поиск должников</a>
+                <a href="{{route('student.excel')}}" class="btn btn-primary">Экспорт в Excel</a>
+                <a href="{{route('debtor_search')}}" class="btn btn-danger">Отобразить должников</a>
                 @endif
               </div>
               
@@ -41,7 +41,7 @@
                     <td>{{ $collection[$i]['2'] }}</td>
                     <td>{{ $collection[$i]['3'] }}</td>
                     <td>{{ $collection[$i]['4'] }}</td>
-                    <td>{{ $collection[$i]['6'] }}</td>
+                    <td>{{ $collection[$i]['6'] }}</td> 
                     <td>{{ $collection[$i]['5'] }}</td>
                     <td> 
                     @if($collection[$i]['7'] != null) + 

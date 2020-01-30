@@ -85,7 +85,6 @@
                   <option>Урок по расписанию</option>
                   <option>Тестирование</option>
                   <option>Пробное занятие</option>
-                  <option>Отработка</option>
                   <option>Speaking club</option>
                 </select>
                 @error('type')

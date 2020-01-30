@@ -10,25 +10,19 @@
       <div class="box" style="margin-top: -10px">
         <div class="box-body main">
 
-            <!--- Этот блок видят только НЕзарег на сайте пользователи --->
+            <!--- Этот блок видят только НЕзарегистрированные на сайте пользователи --->
             @guest
-            <div style="width: 470px;">
-                <p><span style="font-size: 22px; font-style: Sylfaen; margin-left: +35%">Уважаемый посетитель!</span></p>
-                <p><span style="font-size: 16px; font-style: Sylfaen">Прежде чем начать тестирование, заполните, пожалуйста, краткую анкету учащегося</span></p>
+            <div style="width: 100%;">
+                <p style="text-align: center; margin: 0 0 10px 0"><span style="font-size: 22px; font-style: Sylfaen; margin-left: +0%; text">Уважаемый посетитель!</span></p>
+                <p><span style="font-size: 16px; font-style: Sylfaen">Заполните, пожалуйста, краткую анкету учащегося перед началом тестирования уровня владения языком</span></p>
             </div>
             @endguest
 
-
-            <!--- Этот блок видят только зарег на сайте пользователи --->
+            <!--- Этот блок видят только зарегистрированные на сайте пользователи --->
             @auth
-            <div style="width: 470px;">
-                для внутренних пользователей приложения
-            </div>
+            <p style="text-align: center; margin: 0 0 10px 0"><span style="font-size: 22px; font-style: Sylfaen; margin-left: +0%">Регистрация нового учащегося</span></p>
             @endauth
-
-
-            <p><span style="font-size: 22px; font-style: Sylfaen; margin-left: +35%">Регистрация</span></p>
-            <p></p>
+            
             <form method="POST" action="{{route('students.store')}}">
             @csrf
                 <div class="form-group row fl">

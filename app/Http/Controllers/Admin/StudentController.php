@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 
+use Illuminate\Support\Facades\DB;
+
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -25,7 +27,6 @@ class StudentController extends Controller
 
     public function index()
     {   
-
         $collection = collect([ ]);
 
         $student = Student::all();
@@ -75,7 +76,7 @@ class StudentController extends Controller
             if($Group_fo_this_stud->count() == 0){
                 $list_group = 'нигде не состоит';
             }
-
+           
             $collection[] = $arr = 
                                 [ 
                                     $id_s,
@@ -89,7 +90,7 @@ class StudentController extends Controller
                                 ];
         }
 
-        // dd($collection[0]);
+        //dd($collection);
         $limit = $student->count();
         return view('admin.student.index',  compact('collection', 'limit'));
     }
@@ -440,12 +441,16 @@ class StudentController extends Controller
                              ->where('status', 'Проведён');
 
 
-        // 'журнал'                     
-        $archive = Lesson_students::orderBy('created_at', 'desc')->where('student_id', $id)->get(); 
+        // журнал                    
+        //$archive = Lesson_students::orderBy('created_at', 'desc')->where('student_id', $id)->get(); 
+
+        $archive = DB::table('lessons')
+            ->join('lesson_students', 'lessons.id', '=', 'lesson_students.lesson_id')
+            ->select('lessons.id', 'lessons.lesson_date', 'lesson_students.lesson_id', 'lesson_students.group_id', 'lesson_students.status')->where('student_id', $id)->orderBy('id', 'desc')
+            ->get();
+        //dd($archive);
 
         
-
-
         $ar_group1 = []; // id групп в кот состоит студ
         foreach ($group_ar as $k){
             $ar_group1[] = $k->group_id;

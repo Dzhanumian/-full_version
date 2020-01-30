@@ -20,19 +20,19 @@
               </div>
 
               <form method="POST" action="{{route('users.excel')}}">
-                @csrf
+                      @csrf
 
-                <div style="display: inline-block;">
-                  <span style="color: red">C  </span>
-                  <input type="date" name="from" required>
-                </div>
+                      <div style="display: inline-block;">
+                        <span style="color: red">C  </span>
+                        <input type="date" name="from" required>
+                      </div>
 
-                <div style="display: inline-block;">
-                  <span style="color: red">По </span>
-                  <input type="date" name="before" required>
-                </div>
-                <input type="hidden" name="finance" value="false">
-                <button class="btn btn-info">Excel</button>
+                      <div style="display: inline-block;">
+                        <span style="color: red">По </span>
+                        <input type="date" name="before" required>
+                      </div>
+
+                      <button class="btn btn-info">Excel</button>
               </form>
               
               <table id="example1" class="table table-bordered table-striped">

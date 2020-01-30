@@ -35,4 +35,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function GetAllTeaches()
+    {
+        return $teachers = User::all()->where('teaches', 'да');
+    }
+
+    public function userFindId($id)
+    {
+        $user = User::find($id);
+
+        return $user;
+    }
 }

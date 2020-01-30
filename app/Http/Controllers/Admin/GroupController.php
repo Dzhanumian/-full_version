@@ -26,7 +26,7 @@ class GroupController extends Controller
         $Group = Group::all();
         $Group_students = Group_students::all();
         $from = date('Y-m-01');
-        $before = date('Y-m-t');
+        $before = date('Y-m-t');//
         $Lesson = Lesson::where('lesson_date', '>=', $from)->where('lesson_date', '<=', $before)->get();
         $collection = collect([ ]);
         $limit = $Group->count();

@@ -13,7 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            'App\Http\Services\Lesson\iWorkedLesson',  
+            'App\Http\Services\Lesson\WorkedLesson'
+        );
     }
 
     /**
@@ -23,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // $this->app->bind(
+        //     'App\Http\Controllers\Services\Lesson\iWorkedLesson',  
+        //     'App\Http\Controllers\Services\Lesson\WorkedLesson'
+        // );
     }
 }

@@ -3,8 +3,6 @@
 @section('content')
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    
-
     <!-- Main content -->
     <section class="content">
       <!-- Default box -->
@@ -30,7 +28,7 @@
                     @endif
                 </h2>
                 <div>
-                  <h4><strong>Дата рождения:</strong> {{ $student->date_of_birth }}</h4>
+                  <h4><strong>Дата рождения:</strong> {{ date_format(date_create($student->date_of_birth), 'd.m.Y') }}</h4>
                   <h4><strong>Телефон:</strong> {{ $student->phone_number }}</h4>
                   @if($student->relations != 'Сам за себя ответственный')
                     <br>
@@ -192,12 +190,7 @@
                     <td><a href="{{url('/dashboard/group_students/'.$arch->group_id.'/edit')}}" target="_blank">{{$arch->group_id}}</a></td>
                     <td><a href="{{url('/dashboard/lesson/presence/'.$arch->lesson_id)}}" target="_blank">{{$arch->lesson_id}}</a></td>
                     <td>{{$arch->status}}</td>
-                    <td>
-                      @php 
-                        $a = $arch->created_at; 
-                        echo substr($a, 0,10);
-                      @endphp
-                    </td>
+                    <td>{{$arch->lesson_date }}</td>
                   </tr>
                 @endforeach
                 </table>

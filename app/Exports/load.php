@@ -14,6 +14,9 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
+use App\TestLessonStudent;
+use App\StudentTestLesson;
+
 class load implements FromCollection, WithHeadings
 {
     public function collection()
@@ -31,6 +34,9 @@ class load implements FromCollection, WithHeadings
         $from = date('Y-m-d', strtotime($date->date_from)  - 1500000);
         $before = date('Y-m-d', strtotime($date->date_befor) + 1500000);
     	$Lesson_students = Lesson_students::where('created_at', '>=', $from)->where('created_at', '<=', $before)->get();
+        $student_test_lessons = StudentTestLesson::where('created_at', '>=', $from)->where('created_at', '<=', $before)->get();
+
+        $test_lesson_students = TestLessonStudent::where('created_at', '>=', $from)->where('created_at', '<=', $before)->get();
 
     	$collection = collect([]); // собираю эту колекцию для execl
 
@@ -41,13 +47,25 @@ class load implements FromCollection, WithHeadings
     		$end_time = $les->lesson_time_end; 
     		$teacher = $User->find($les->teacher_id)->surname.' '.$User->find($les->teacher_id)->name;
     		$room = $Room->find($les->room)->room_name;
-    		$group_name = $Group->find($les->group_id)->group_name; 
+            $group_name = 'отработка';
+            //dd($les->group_id);
+            if($les->group_id == 10001){
+                $group_name = 'пробное занятие';
+            }
+            if($les->group_id == 10000){
+                $group_name = 'тестирование';
+            }
+            if($les->group_id != 9999 and $les->group_id != 10000 and $les->group_id != 10001){
+                $group_name = $Group->find($les->group_id)->group_name;
+            } 
     		$status = $les->status;
+            $type = $les->type;
 
     		$present = [];
     		$no_present = [];
-    		if($status == 'Проведён')
-    		{	
+            $planned = [];
+    		// if($status == 'Проведён')
+    		// {	
     			$list = $Lesson_students->where('lesson_id', $id);
     			foreach ($list as $l){
     				//$l->student_id;
@@ -57,8 +75,27 @@ class load implements FromCollection, WithHeadings
     				if ($l->status == 'пропустил'){
     					$no_present[] = $Student->find($l->student_id)->surname.' '.$Student->find($l->student_id)->name;
     				}
+                    if ($l->status == 'планируемо'){
+                        $planned[] = $Student->find($l->student_id)->surname.' '.$Student->find($l->student_id)->name;
+                    }
     			}
-    		}
+
+                if($les->group_id == 10000)
+                {  
+                    $list = $test_lesson_students->where('lesson_id', $id);
+                    foreach ($list as $l){
+                        if ($l->status == 'присутствовал'){
+                            $present[] = $l->fio;
+                        }
+                        if ($l->status == 'пропустил'){
+                            $no_present[] = $l->fio;
+                        }
+                        if ($l->status == 'планируемо'){
+                            $planned[] = $l->fio;
+                        }
+                    }   
+                }
+    		//}
     		if(count($present) == 0){
     			$present[] = 'пусто';
     		}
@@ -66,8 +103,12 @@ class load implements FromCollection, WithHeadings
     		if(count($no_present) == 0){
     			$no_present[] = 'пусто';
     		}
+            if(count($planned) == 0){
+                $planned[] = 'пусто';
+            }
     		$pr = implode(", ", $present);
     		$no_pr = implode(", ", $no_present);
+            $pl = implode(", ", $planned);
 
     		$collection[] = $arr = 
                                     [
@@ -79,8 +120,10 @@ class load implements FromCollection, WithHeadings
                                     	$teacher,
                                     	$room,
                                     	$status,
+                                        $type,
                                     	$pr,
-                                        $no_pr
+                                        $no_pr,
+                                        $pl
                                     ];
     	}
     	/*
@@ -114,8 +157,10 @@ class load implements FromCollection, WithHeadings
             'Преподаватель',
             'Кабинет',
             'Статус',
+            'Тип',
             'Присутствовали',
-            'Отсутствовали'
+            'Отсутствовали',
+            'Планируемо'
 
         ];
     }
