@@ -8,7 +8,7 @@ class Account extends Model
 {
 	protected $fillable = [
         'id', 'student_id', 'account', 'created_at', 'updated_at',
-    ];    
+    ];
 
 
     public function add(){
@@ -20,10 +20,10 @@ class Account extends Model
 
 	    Account::create([
 	    	'id' => $lastUserId,
-	    	'student_id' => $lastUserId, 
-	    	'account' => 0, 
-	    	'created_at' => $dateTime, 
-	    	'updated_at' => $dateTime, 
+	    	'student_id' => $lastUserId,
+	    	'account' => 0,
+	    	'created_at' => $dateTime,
+	    	'updated_at' => $dateTime,
 	   	]);
 	}
 }

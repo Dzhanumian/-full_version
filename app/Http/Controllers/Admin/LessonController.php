@@ -190,7 +190,7 @@ class LessonController extends Controller
     	$subs = Class_room::find($id_room);
     	$subsidiaries_id = $subs->subsidiaries_id;
 
-      
+    //dd($request);
 		$lesson = new Lesson();
 		$lesson->add(
 			$lesson_id+1,

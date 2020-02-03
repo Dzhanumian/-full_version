@@ -25,8 +25,9 @@ class GroupController extends Controller
 
         $Group = Group::all();
         $Group_students = Group_students::all();
-        $from = date('Y-m-01');
-        $before = date('Y-m-t');//
+        $time = strtotime(date('Y-m-d'));
+        $from = date('Y-m-d', (86400 * 7) + $time); 
+        $before = date('Y-m-d', (86400 * 14) + $time);
         $Lesson = Lesson::where('lesson_date', '>=', $from)->where('lesson_date', '<=', $before)->get();
         $collection = collect([ ]);
         $limit = $Group->count();
@@ -162,7 +163,9 @@ class GroupController extends Controller
         $log = new Event_log();
         $log->log($name, $id, 'обновил группу');
         
-        $lesson = Lesson::where('group_id', $group->id)->get();
+        $from = date('Y-m-d');
+
+        $lesson = Lesson::where('lesson_date', '>=', $from)->where('group_id', $group->id)->get();
         //dd($lesson);
         foreach ($lesson as $les) {
             $update_les = $lesson->find($les->id);
