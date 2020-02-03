@@ -24,7 +24,7 @@ class WorkedLessonRequests extends FormRequest
     public function rules()
     {
         return [
-            'teacher_id' => ['required', 'string', 'max:255'],
+            'teacher_id' => ['required', 'numeric', 'max:255'],
             'students.*' => 'required|string|max:1',
             'class_room' => ['required'],
             'students.*' => ['required'],
