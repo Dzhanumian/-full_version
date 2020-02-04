@@ -53,9 +53,9 @@ class RegisterController extends Controller
 
     protected $allslots=array('admin', 'teacher', 'owner');
     protected $allslotss=array('admin', 'teacher');
-    
+
     protected function validator(array $data)
-    {   
+    {
         if (Auth::user()->role == 'owner') {
             return Validator::make($data, [
                 'surname' => ['required', 'string', 'max:255'],
@@ -88,7 +88,7 @@ class RegisterController extends Controller
                 'employment_date' => ['date', 'size:10'],
             ]);
         }else{ redirect()->back(); }
-        
+
     }
 
     //date
@@ -99,7 +99,7 @@ class RegisterController extends Controller
      * @return \App\User
      */
     protected function create(array $data)
-    {   
+    {
 
         $lastUserId = \DB::table('users')->max('id');
 
@@ -107,8 +107,8 @@ class RegisterController extends Controller
         $log->log($data['name'], $lastUserId + 1, 'создал');
         $lastUserId = $lastUserId + 1;
 
-        $Rate = new Rate();
-        $Rate->add($lastUserId,'0','0','0','0','0');
+        //$Rate = new Rate();
+        //$Rate->add($lastUserId,'0','0','0','0','0');
 
         return User::create([
             'id' => $lastUserId,
